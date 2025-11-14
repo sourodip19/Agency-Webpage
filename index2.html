@@ -8,7 +8,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    
+
     <style>
       * {
         margin: 0;
@@ -1240,6 +1240,86 @@
           transform: translateY(-20px);
         }
       }
+
+      /* ======== Dropdown Menu ======== */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-toggle {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .dropdown-toggle i {
+        font-size: 0.8rem;
+        transition: transform 0.3s ease;
+      }
+
+      /* Dropdown content */
+      .dropdown-menu {
+        position: absolute;
+        top: 40px;
+        left: 0;
+        background-color: var(--secondary);
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        list-style: none;
+        padding: 10px 0;
+        min-width: 180px;
+        display: none;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 1000;
+      }
+
+      /* Dropdown links */
+      .dropdown-menu li {
+        padding: 10px 20px;
+      }
+
+      .dropdown-menu li a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        display: block;
+        transition: var(--transition);
+      }
+
+      .dropdown-menu li a:hover {
+        background-color: var(--light-gray);
+        color: var(--accent);
+      }
+
+      /* Show dropdown on click */
+      .dropdown.active .dropdown-menu {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .dropdown.active .dropdown-toggle i {
+        transform: rotate(180deg);
+      }
+
+      /* Mobile adjustments */
+      @media (max-width: 768px) {
+        .dropdown-menu {
+          position: static;
+          box-shadow: none;
+          transform: none;
+          opacity: 1;
+          display: none;
+          padding-left: 10px;
+        }
+
+        .dropdown.active .dropdown-menu {
+          display: block;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1252,9 +1332,27 @@
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
+
+            <!-- Portfolio Dropdown -->
+            <li class="dropdown">
+              <a href="javascript:void(0)" class="dropdown-toggle">
+                Portfolio <i class="fas fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a
+                    href="https://tathagata16.github.io/Portfolio/"
+                    target="_blank"
+                    >Tathagata (TG)</a
+                  >
+                </li>
+                <li><a href="#" target="_blank">Sourodip (SD)</a></li>
+              </ul>
+            </li>
+
             <li><a href="#contact">Contact</a></li>
           </ul>
+
           <div class="mobile-menu">
             <i class="fas fa-bars"></i>
           </div>
@@ -1397,7 +1495,10 @@
                 >
               </h3>
               <p>
-                E-commerce website with online ordering system and menu display.
+                A full-stack restaurant web app with React, Node.js, Express,
+                and MongoDB — featuring user/admin dashboards, WhatsApp order
+                notifications, and complete backend functionality for online
+                reservations.
               </p>
             </div>
           </div>
@@ -1417,8 +1518,10 @@
                 >
               </h3>
               <p>
-                A Background Removal App that removes the background using AI,
-                allowing users to download transparent images.
+                An AI-based full-stack SaaS application built with React,
+                Node.js, Express, and MongoDB that removes image backgrounds
+                instantly. It features a credit-based system with online
+                payments and secure user authentication using Clerk.
               </p>
             </div>
           </div>
@@ -1435,8 +1538,10 @@
                 >
               </h3>
               <p>
-                Professional peer-to-peer chat website built for seamless
-                communication.
+                A real-time chat application built with React, Node.js, Express,
+                and Socket.io — enabling seamless peer-to-peer communication
+                with a clean UI, secure connections, and instant message
+                delivery.
               </p>
             </div>
           </div>
@@ -1458,7 +1563,10 @@
                 >
               </h3>
               <p>
-                Restaurant website with online reservations and menu display.
+                A full-stack restaurant web app built with React, Node.js,
+                Express, and MongoDB — featuring user and admin dashboards,
+                WhatsApp order notifications, Stripe payment integration, and a
+                complete backend for online reservations and order management.
               </p>
             </div>
           </div>
@@ -1655,6 +1763,32 @@
 
       mobileMenu.addEventListener("click", () => {
         navLinks.classList.toggle("active");
+      });
+
+      // Dropdown toggle on click
+      const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
+      dropdownToggles.forEach((toggle) => {
+        toggle.addEventListener("click", (e) => {
+          e.preventDefault();
+          const parent = toggle.parentElement;
+
+          // Close any other open dropdowns
+          document.querySelectorAll(".dropdown").forEach((item) => {
+            if (item !== parent) item.classList.remove("active");
+          });
+
+          // Toggle the clicked one
+          parent.classList.toggle("active");
+        });
+      });
+
+      // Close dropdown when clicking outside
+      window.addEventListener("click", (e) => {
+        if (!e.target.closest(".dropdown")) {
+          document.querySelectorAll(".dropdown").forEach((item) => {
+            item.classList.remove("active");
+          });
+        }
       });
 
       // Header Scroll Effect
